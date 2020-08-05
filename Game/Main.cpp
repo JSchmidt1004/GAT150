@@ -1,8 +1,27 @@
 // Game.cpp : This file contains the 'main' function. Program execution begins and ends there.
 //
 
-#include <iostream>
-#include <SDL.h>
+#include "pch.h"
+#include "Graphics/Texture.h"
+
+
+/*
+void ExampleCode()
+{
+	SDL_Surface* surface = SDL_LoadBMP("sf2.bmp");
+	if (surface == nullptr)
+	{
+		return 1;
+	}
+	SDL_Texture* texture2 = SDL_CreateTextureFromSurface(renderer, surface);
+
+	SDL_Rect rect2;
+	rect2.x = 20;
+	rect2.y = 20;
+	SDL_QueryTexture(texture2, NULL, NULL, &rect2.w, &rect2.h);
+	SDL_RenderCopy(renderer, texture2, NULL, &rect2);
+}
+*/
 
 int main(int, char**)
 {
@@ -35,17 +54,17 @@ int main(int, char**)
 	memset(pixels, 255, width * height * sizeof(Uint32));
 	SDL_UpdateTexture(texture1, NULL, pixels, width * sizeof(Uint32));
 
-	SDL_Surface* surface = SDL_LoadBMP("sf2.bmp");
-	if (surface == nullptr)
-	{
-		return 1;
-	}
-	SDL_Texture* texture2 = SDL_CreateTextureFromSurface(renderer, surface);
+
+	nc::Texture texture;
+	texture.Create("sf2.bmp", renderer);
+	float angle = 0;
+
 
 	SDL_Event event;
 	bool quit = false;
 	while (!quit)
 	{
+		//Pressing quit
 		SDL_PollEvent(&event);
 		switch (event.type)
 		{
@@ -71,16 +90,12 @@ int main(int, char**)
 		SDL_Rect rect;
 		rect.x = 200;
 		rect.y = 100;
-		rect.w = width * 2;
-		rect.h = height * 3;
+		rect.w = width * 0.5f;
+		rect.h = height * 0.5f;
 		SDL_RenderCopy(renderer, texture1, NULL, &rect);
 
-
-		SDL_Rect rect2;
-		rect2.x = 20;
-		rect2.y = 20;
-		SDL_QueryTexture(texture2, NULL, NULL, &rect2.w, &rect2.h);
-		SDL_RenderCopy(renderer, texture2, NULL, &rect2);
+		angle ++;
+		texture.Draw({ 500, 100 }, { 1, 1 }, angle);
 
 		SDL_RenderPresent(renderer);
 
