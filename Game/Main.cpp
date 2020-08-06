@@ -2,8 +2,12 @@
 //
 
 #include "pch.h"
+#include "Resources/ResourceManager.h"
 #include "Graphics/Texture.h"
+#include "Graphics/Renderer.h"
 
+nc::ResourceManager resourceManager;
+nc::Renderer renderer;
 
 /*
 void ExampleCode()
@@ -20,30 +24,7 @@ void ExampleCode()
 	rect2.y = 20;
 	SDL_QueryTexture(texture2, NULL, NULL, &rect2.w, &rect2.h);
 	SDL_RenderCopy(renderer, texture2, NULL, &rect2);
-}
-*/
 
-int main(int, char**)
-{
-	if (SDL_Init(SDL_INIT_VIDEO) != 0)
-	{
-		std::cout << "SDL_Init Error: " << SDL_GetError() << std::endl;
-		return 1;
-	}
-
-	SDL_Window* window = SDL_CreateWindow("GAT150", 100, 100, 800, 600, SDL_WINDOW_SHOWN | SDL_WINDOW_RESIZABLE);
-	if (window == nullptr) {
-		std::cout << "SDL_CreateWindow Error: " << SDL_GetError() << std::endl;
-		SDL_Quit();
-		return 1;
-	}
-
-	SDL_Renderer* renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED);
-	if (renderer == nullptr) {
-		std::cout << "SDL_CreateRenderer Error: " << SDL_GetError() << std::endl;
-		SDL_Quit();
-		return 1;
-	}
 
 	//Create Textures
 	int width = 128;
@@ -54,9 +35,34 @@ int main(int, char**)
 	memset(pixels, 255, width * height * sizeof(Uint32));
 	SDL_UpdateTexture(texture1, NULL, pixels, width * sizeof(Uint32));
 
+	//Draw
+		for (size_t i = 0; i < width * height; i++)
+		{
+			Uint8 c = rand() % 256;
+			pixels[i] = (c << 24 | c << 16 | c << 8);
+		}
 
-	nc::Texture texture;
-	texture.Create("sf2.bmp", renderer);
+		SDL_UpdateTexture(texture1, NULL, pixels, width * sizeof(Uint32));
+
+		SDL_Rect rect;
+		rect.x = 200;
+		rect.y = 100;
+		rect.w = width * 0.5f;
+		rect.h = height * 0.5f;
+		SDL_RenderCopy(renderer, texture1, NULL, &rect);
+
+		SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
+
+}
+*/
+
+int main(int, char**)
+{
+	renderer.Startup();
+	renderer.Create("Idk, I'm not good at names", 800, 600);
+
+	nc::Texture* texture1 = resourceManager.Get<nc::Texture>("sf2.png", &renderer);
+	nc::Texture* texture2 = resourceManager.Get<nc::Texture>("sf2.png", &renderer);
 	float angle = 0;
 
 
@@ -75,32 +81,17 @@ int main(int, char**)
 			break;
 		}
 
-		SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
-		SDL_RenderClear(renderer);
+		renderer.BeginFrame();
 
-		//Draw
-		for (size_t i = 0; i < width * height; i++)
-		{
-			Uint8 c = rand() % 256;
-			pixels[i] = (c << 24 | c << 16 | c << 8);
-		}
+		angle += 0.2f;
+		texture1->Draw({ 500, 100 }, { 0.3f, 0.3f }, angle);
+		texture2->Draw({ 200, 300 }, { 0.3f, 0.3f }, angle + 90);
 
-		SDL_UpdateTexture(texture1, NULL, pixels, width * sizeof(Uint32));
-
-		SDL_Rect rect;
-		rect.x = 200;
-		rect.y = 100;
-		rect.w = width * 0.5f;
-		rect.h = height * 0.5f;
-		SDL_RenderCopy(renderer, texture1, NULL, &rect);
-
-		angle ++;
-		texture.Draw({ 500, 100 }, { 1, 1 }, angle);
-
-		SDL_RenderPresent(renderer);
+		renderer.EndFrame();
 
 	}
 
+	renderer.Shutdown();
 	SDL_Quit();
 
 	return 0;
