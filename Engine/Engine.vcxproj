@@ -176,6 +176,7 @@
     <ClInclude Include="framework.h" />
     <ClInclude Include="Graphics\Renderer.h" />
     <ClInclude Include="Graphics\Texture.h" />
+    <ClInclude Include="Input\InputSystem.h" />
     <ClInclude Include="Math\Color.h" />
     <ClInclude Include="Math\Math.h" />
     <ClInclude Include="Math\Matrix2x2.h" />
@@ -191,6 +192,7 @@
     <ClCompile Include="Core\Timer.cpp" />
     <ClCompile Include="Graphics\Renderer.cpp" />
     <ClCompile Include="Graphics\Texture.cpp" />
+    <ClCompile Include="Input\InputSystem.cpp" />
     <ClCompile Include="Math\Color.cpp" />
     <ClCompile Include="Math\Transform.cpp" />
     <ClCompile Include="Math\Vector2.cpp" />

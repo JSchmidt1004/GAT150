@@ -21,6 +21,9 @@
     <Filter Include="Resources">
       <UniqueIdentifier>{e53ede89-7656-4c6b-b11f-878cf1f83ad9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Input">
+      <UniqueIdentifier>{f41cfb5b-ee37-4413-8b9d-d39ff1c3ccee}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -68,6 +71,9 @@
     <ClInclude Include="Core\Timer.h">
       <Filter>Core</Filter>
     </ClInclude>
+    <ClInclude Include="Input\InputSystem.h">
+      <Filter>Input</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="pch.cpp">
@@ -93,6 +99,9 @@
     </ClCompile>
     <ClCompile Include="Core\Timer.cpp">
       <Filter>Core</Filter>
+    </ClCompile>
+    <ClCompile Include="Input\InputSystem.cpp">
+      <Filter>Input</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

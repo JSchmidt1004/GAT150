@@ -2,14 +2,20 @@
 //
 
 #include "pch.h"
+#include "Core/Timer.h"
 #include "Resources/ResourceManager.h"
+#include "Input/InputSystem.h"
 #include "Graphics/Texture.h"
 #include "Graphics/Renderer.h"
-#include "Core/Timer.h"
 
 nc::ResourceManager resourceManager;
 nc::Renderer renderer;
+nc::InputSystem inputSystem;
 nc::FrameTimer timer;
+
+
+nc::Vector2 position{ 400, 300 };
+
 
 /*
 void ExampleCode()
@@ -66,6 +72,7 @@ void ExampleCode()
 
 int main(int, char**)
 {
+	inputSystem.Startup();
 	renderer.Startup();
 	renderer.Create("Idk, I'm not good at names", 800, 600);
 
@@ -90,17 +97,30 @@ int main(int, char**)
 		}
 
 		timer.Tick();
+		inputSystem.Update();
 
 		renderer.BeginFrame();
 
+
+		if (inputSystem.GetButtonState(SDL_SCANCODE_LEFT) == nc::InputSystem::eButtonState::HELD)
+		{
+			position.x = position.x - 1.0f;
+		}
+		if (inputSystem.GetButtonState(SDL_SCANCODE_RIGHT) == nc::InputSystem::eButtonState::HELD)
+		{
+			position.x = position.x + 1.0f;
+		}
+
+
 		angle += 180 * timer.DeltaTime();
 		background->Draw({ 0, 0 }, { 1.0f, 1.0f }, 0);
-		car->Draw({0, 16, 64, 144},  { 450, 100 }, { 1.0f, 1.0f }, 0);
+		car->Draw({0, 16, 64, 144},  position, { 1.0f, 1.0f }, 0);
 
 		renderer.EndFrame();
 
 	}
 
+	inputSystem.Shutdown();
 	renderer.Shutdown();
 	SDL_Quit();
 
