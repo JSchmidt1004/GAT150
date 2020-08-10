@@ -5,9 +5,11 @@
 #include "Resources/ResourceManager.h"
 #include "Graphics/Texture.h"
 #include "Graphics/Renderer.h"
+#include "Core/Timer.h"
 
 nc::ResourceManager resourceManager;
 nc::Renderer renderer;
+nc::FrameTimer timer;
 
 /*
 void ExampleCode()
@@ -53,16 +55,22 @@ void ExampleCode()
 
 		SDL_SetRenderDrawColor(renderer, 0, 0, 255, 255);
 
+
+	nc::Timer timer;
+	//Profile
+	for (size_t i = 0; i < 1000; i++) { std::sqrt(rand() % 100); }
+	std::cout << timer.ElapsedSeconds() << std::endl;
 }
 */
+
 
 int main(int, char**)
 {
 	renderer.Startup();
 	renderer.Create("Idk, I'm not good at names", 800, 600);
 
-	nc::Texture* texture1 = resourceManager.Get<nc::Texture>("sf2.png", &renderer);
-	nc::Texture* texture2 = resourceManager.Get<nc::Texture>("sf2.png", &renderer);
+	nc::Texture* background = resourceManager.Get<nc::Texture>("background.png", &renderer);
+	nc::Texture* car = resourceManager.Get<nc::Texture>("cars.png", &renderer);
 	float angle = 0;
 
 
@@ -81,11 +89,13 @@ int main(int, char**)
 			break;
 		}
 
+		timer.Tick();
+
 		renderer.BeginFrame();
 
-		angle += 0.2f;
-		texture1->Draw({ 500, 100 }, { 0.3f, 0.3f }, angle);
-		texture2->Draw({ 200, 300 }, { 0.3f, 0.3f }, angle + 90);
+		angle += 180 * timer.DeltaTime();
+		background->Draw({ 0, 0 }, { 1.0f, 1.0f }, 0);
+		car->Draw({0, 16, 64, 144},  { 450, 100 }, { 1.0f, 1.0f }, 0);
 
 		renderer.EndFrame();
 
