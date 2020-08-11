@@ -7,14 +7,12 @@
 #include "Input/InputSystem.h"
 #include "Graphics/Texture.h"
 #include "Graphics/Renderer.h"
+#include "Math/Math.h"
 
 nc::ResourceManager resourceManager;
 nc::Renderer renderer;
 nc::InputSystem inputSystem;
 nc::FrameTimer timer;
-
-
-nc::Vector2 position{ 400, 300 };
 
 
 /*
@@ -66,6 +64,8 @@ void ExampleCode()
 	//Profile
 	for (size_t i = 0; i < 1000; i++) { std::sqrt(rand() % 100); }
 	std::cout << timer.ElapsedSeconds() << std::endl;
+
+	angle += 180 * timer.DeltaTime();
 }
 */
 
@@ -78,7 +78,10 @@ int main(int, char**)
 
 	nc::Texture* background = resourceManager.Get<nc::Texture>("background.png", &renderer);
 	nc::Texture* car = resourceManager.Get<nc::Texture>("cars.png", &renderer);
+
 	float angle = 0;
+	nc::Vector2 position{ 400, 300 };
+	nc::Vector2 velocity;
 
 
 	SDL_Event event;
@@ -99,22 +102,37 @@ int main(int, char**)
 		timer.Tick();
 		inputSystem.Update();
 
+
+		//Player Controller
+		if (inputSystem.GetButtonState(SDL_SCANCODE_A) == nc::InputSystem::eButtonState::HELD)
+		{
+			angle -= 200.0f * timer.DeltaTime();
+		}
+		if (inputSystem.GetButtonState(SDL_SCANCODE_D) == nc::InputSystem::eButtonState::HELD)
+		{
+			angle += 200.0f * timer.DeltaTime();
+		}
+
+		nc::Vector2 force;
+		if (inputSystem.GetButtonState(SDL_SCANCODE_W) == nc::InputSystem::eButtonState::HELD)
+		{
+			force = nc::Vector2::forward * 1000.0f;
+		}
+
+		force = nc::Vector2::Rotate(force, nc::DegreesToRadians(angle));
+
+		//Physics
+		velocity += force * timer.DeltaTime();
+		velocity *= 0.95f;
+		position += velocity * timer.DeltaTime();
+
+		//Draw
 		renderer.BeginFrame();
 
-
-		if (inputSystem.GetButtonState(SDL_SCANCODE_LEFT) == nc::InputSystem::eButtonState::HELD)
-		{
-			position.x = position.x - 1.0f;
-		}
-		if (inputSystem.GetButtonState(SDL_SCANCODE_RIGHT) == nc::InputSystem::eButtonState::HELD)
-		{
-			position.x = position.x + 1.0f;
-		}
-
-
-		angle += 180 * timer.DeltaTime();
 		background->Draw({ 0, 0 }, { 1.0f, 1.0f }, 0);
-		car->Draw({0, 16, 64, 144},  position, { 1.0f, 1.0f }, 0);
+
+		//Render Sprite
+		car->Draw({128, 120, 48, 98},  position, { 1.0f, 1.0f }, angle);
 
 		renderer.EndFrame();
 
