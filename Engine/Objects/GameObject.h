@@ -3,11 +3,13 @@
 #include <vector>
 
 #include "Object.h"
-#include "Components/Component.h"
 #include "Math/Transform.h"
+#include "Engine.h"
 
 namespace nc
 {
+	class Component;
+
 	class GameObject : public Object
 	{
 		public:
@@ -22,23 +24,29 @@ namespace nc
 			void RemoveAllComponents();
 
 			template<typename T>
-			T* GetComponent()
-			{
-				T* result = nullptr;
-				for (auto component : m_components)
-				{
-					result = dynamic_cast<T*>(component);
-					if (result) break;
-				}
-
-				return result;
-			}
+			T* GetComponent();
 
 			friend class Component;
 			friend class PhysicsComponent;
 
-		protected:
+		public:
 			Transform m_transform;
+			Engine* m_engine;
+
+		protected:
 			std::vector<Component*> m_components;
 	};
+
+	template<typename T>
+	T* GameObject::GetComponent()
+	{
+		T* result = nullptr;
+		for (auto component : m_components)
+		{
+			result = dynamic_cast<T*>(component);
+			if (result) break;
+		}
+
+		return result;
+	}
 }
