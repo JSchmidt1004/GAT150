@@ -7,7 +7,6 @@ namespace nc
 {
     bool PhysicsComponent::Create(void* data)
     {
-        m_velocity = nc::Vector2::forward * 100;
         return true;
     }
 
