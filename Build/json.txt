@@ -1,6 +1,6 @@
 {
    "string":"hello world",
-   "boolean":true,
+   "bool":true,
    "integer1":123,
    "integer2":456,
    "float":3.1416,

@@ -19,10 +19,13 @@
 #include <list>
 #include <map>
 #include <chrono>
+#include <cassert>>
 
 #include "Math/Math.h"
 #include "Math/Random.h"
 #include "Math/Transform.h"
 #include "Math/Color.h"
+
+#include "Core/Assert.h"
 
 #endif //PCH_H

@@ -67,13 +67,9 @@ void ExampleCode()
 	std::cout << timer.ElapsedSeconds() << std::endl;
 
 	angle += 180 * timer.DeltaTime();
-}
-*/
 
 
-int main(int, char**)
-{
-	rapidjson::Document document;
+		rapidjson::Document document;
 	nc::json::Load("json.txt", document);
 
 	std::string str;
@@ -103,19 +99,31 @@ int main(int, char**)
 	nc::Color color;
 	nc::json::Get(document, "color", color);
 	std::cout << color << std::endl;
+}
+*/
+
+
+int main(int, char**)
+{
 
 
 	engine.Startup();
-
 	player.Create(&engine);
-	player.m_transform.position = { 400, 300 };
-	player.m_transform.angle = 45;
+
+	rapidjson::Document document;
+
+	nc::json::Load("player.txt", document);
+	player.Read(document);
+
+
 	nc::Component* component = new nc::PhysicsComponent;
 	player.AddComponent(component);
 	component->Create();
 
 	component = new nc::SpriteComponent;
 	player.AddComponent(component);
+	nc::json::Load("sprite.txt", document);
+	component->Read(document);
 	component->Create();
 
 	component = new nc::PlayerComponent;
