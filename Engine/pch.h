@@ -20,6 +20,7 @@
 #include <map>
 #include <chrono>
 #include <cassert>>
+#include <functional>
 
 #include "Math/Math.h"
 #include "Math/Random.h"

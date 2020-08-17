@@ -6,6 +6,7 @@
 #include "pch.h"
 #include "Engine.h"
 #include "Core/Json.h"
+#include "Core/Factory.h"
 #include "Graphics/Texture.h"
 #include "Objects/GameObject.h"
 #include "Components/PhysicsComponent.h"
@@ -14,6 +15,7 @@
 
 nc::Engine engine;
 nc::GameObject player;
+nc::Factory<nc::Object, std::string> objectFactory;
 
 
 /*
@@ -108,26 +110,34 @@ int main(int, char**)
 
 
 	engine.Startup();
-	player.Create(&engine);
+
+	objectFactory.Register("GameObject", nc::Object::Instantiate<nc::GameObject>);
+	objectFactory.Register("PhysicsComponent", nc::Object::Instantiate<nc::PhysicsComponent>);
+	objectFactory.Register("PlayerComponent", nc::Object::Instantiate<nc::PlayerComponent>);
+	objectFactory.Register("SpriteComponent", nc::Object::Instantiate<nc::SpriteComponent>);
+
+	nc::GameObject* player = objectFactory.Create<nc::GameObject>("GameObject");
+
+	player->Create(&engine);
 
 	rapidjson::Document document;
 
 	nc::json::Load("player.txt", document);
-	player.Read(document);
+	player->Read(document);
 
 
-	nc::Component* component = new nc::PhysicsComponent;
-	player.AddComponent(component);
+	nc::Component* component = objectFactory.Create<nc::Component>("PhysicsComponent");
+	player->AddComponent(component);
 	component->Create();
 
-	component = new nc::SpriteComponent;
-	player.AddComponent(component);
+	component = objectFactory.Create<nc::Component>("SpriteComponent");
+	player->AddComponent(component);
 	nc::json::Load("sprite.txt", document);
 	component->Read(document);
 	component->Create();
 
-	component = new nc::PlayerComponent;
-	player.AddComponent(component);
+	component = objectFactory.Create<nc::Component>("PlayerComponent");
+	player->AddComponent(component);
 	component->Create();
 
 	//Texture
@@ -151,7 +161,7 @@ int main(int, char**)
 
 		//Update
 		engine.Update();
-		player.Update();
+		player->Update();
 
 		/*if (engine.GetSystem<nc::InputSystem>()->GetButtonState(SDL_SCANCODE_ESC) == nc::InputSystem::eButtonState::PRESSED)
 		{
@@ -164,7 +174,7 @@ int main(int, char**)
 		background->Draw({ 0, 0 }, { 1.0f, 1.0f }, 0);
 
 		//Render Sprite
-		player.Draw();
+		player->Draw();
 
 
 		engine.GetSystem<nc::Renderer>()->EndFrame();
