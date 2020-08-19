@@ -6,16 +6,14 @@
 #include "pch.h"
 #include "Engine.h"
 #include "Core/Json.h"
-#include "Core/Factory.h"
 #include "Graphics/Texture.h"
 #include "Objects/GameObject.h"
-#include "Components/PhysicsComponent.h"
-#include "Components/SpriteComponent.h"
+#include "Objects/ObjectFactory.h"
 #include "Components/PlayerComponent.h"
 
 nc::Engine engine;
 nc::GameObject player;
-nc::Factory<nc::Object, std::string> objectFactory;
+
 
 
 /*
@@ -101,6 +99,10 @@ void ExampleCode()
 	nc::Color color;
 	nc::json::Get(document, "color", color);
 	std::cout << color << std::endl;
+
+	nc::ObjectFactory::Instance().Register("GameObject", nc::Object::Instantiate<nc::GameObject>);
+	nc::ObjectFactory::Instance().Register("PhysicsComponent", nc::Object::Instantiate<nc::PhysicsComponent>);
+	nc::ObjectFactory::Instance().Register("SpriteComponent", nc::Object::Instantiate<nc::SpriteComponent>);
 }
 */
 
@@ -111,12 +113,10 @@ int main(int, char**)
 
 	engine.Startup();
 
-	objectFactory.Register("GameObject", nc::Object::Instantiate<nc::GameObject>);
-	objectFactory.Register("PhysicsComponent", nc::Object::Instantiate<nc::PhysicsComponent>);
-	objectFactory.Register("PlayerComponent", nc::Object::Instantiate<nc::PlayerComponent>);
-	objectFactory.Register("SpriteComponent", nc::Object::Instantiate<nc::SpriteComponent>);
+	nc::ObjectFactory::Instance().Initialize();
+	nc::ObjectFactory::Instance().Register("PlayerComponent", nc::Object::Instantiate<nc::PlayerComponent>);
 
-	nc::GameObject* player = objectFactory.Create<nc::GameObject>("GameObject");
+	nc::GameObject* player = nc::ObjectFactory::Instance().Create<nc::GameObject>("GameObject");
 
 	player->Create(&engine);
 
@@ -126,19 +126,19 @@ int main(int, char**)
 	player->Read(document);
 
 
-	nc::Component* component = objectFactory.Create<nc::Component>("PhysicsComponent");
+	nc::Component* component = nc::ObjectFactory::Instance().Create<nc::Component>("PhysicsComponent");
+	component->Create(player);
 	player->AddComponent(component);
-	component->Create();
 
-	component = objectFactory.Create<nc::Component>("SpriteComponent");
-	player->AddComponent(component);
+	component = nc::ObjectFactory::Instance().Create<nc::Component>("SpriteComponent");
+	component->Create(player); 
 	nc::json::Load("sprite.txt", document);
 	component->Read(document);
-	component->Create();
-
-	component = objectFactory.Create<nc::Component>("PlayerComponent");
 	player->AddComponent(component);
-	component->Create();
+
+	component = nc::ObjectFactory::Instance().Create<nc::Component>("PlayerComponent");
+	component->Create(player);
+	player->AddComponent(component);
 
 	//Texture
 	nc::Texture* background = engine.GetSystem<nc::ResourceManager>()->Get<nc::Texture>("background.png", engine.GetSystem<nc::Renderer>());

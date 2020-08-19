@@ -4,6 +4,7 @@
 
 bool nc::PlayerComponent::Create(void* data)
 {
+	m_owner = static_cast<GameObject*>(data);
 	m_owner->GetComponent<PhysicsComponent>()->SetDrag(0.97);
     return false;
 }

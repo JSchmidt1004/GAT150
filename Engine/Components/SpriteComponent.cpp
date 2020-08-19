@@ -6,8 +6,7 @@ namespace nc
 {
     bool nc::SpriteComponent::Create(void* data)
     {
-        m_texture = m_owner->m_engine->GetSystem<nc::ResourceManager>()->Get<nc::Texture>(m_textureName, m_owner->m_engine->GetSystem<nc::Renderer>());
-        ASSERT(m_texture);
+        m_owner = static_cast<GameObject*>(data);
         return true;
     }
 
@@ -33,6 +32,7 @@ namespace nc
         //nc::Vector2 scale{ 1.0f, 1.0f }; 
         //scale *= m_owner->m_transform.scale;
         //{ 128, 120, 48, 98 }
-        m_texture->Draw(m_rect, m_owner->m_transform.position, (nc::Vector2{ 1.0f, 1.0f } * m_owner->m_transform.scale), m_owner->m_transform.angle);
+        Texture* texture = m_owner->m_engine->GetSystem<nc::ResourceManager>()->Get<nc::Texture>(m_textureName, m_owner->m_engine->GetSystem<nc::Renderer>());
+        texture->Draw(m_rect, m_owner->m_transform.position, (nc::Vector2{ 1.0f, 1.0f } * m_owner->m_transform.scale), m_owner->m_transform.angle);
     }
 }

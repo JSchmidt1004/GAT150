@@ -12,6 +12,7 @@ namespace nc
 
     void GameObject::Destroy()
     {
+        RemoveAllComponents();
     }
 
     void GameObject::Read(const rapidjson::Value& value)
@@ -40,7 +41,7 @@ namespace nc
 
     void GameObject::AddComponent(Component* component)
     {
-        component->m_owner = this;
+        
         m_components.push_back(component);
     }
     
