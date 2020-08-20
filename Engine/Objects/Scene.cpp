@@ -51,7 +51,6 @@ namespace nc
 		}
 	}
 
-
 	void Scene::Update()
 	{
 		// iterate through the actors and call Update on each actor
@@ -106,8 +105,6 @@ namespace nc
 			m_gameObjects.erase(iter);
 		}
 	}
-
-
 
 	void Scene::RemoveAllGameObjects()
 	{

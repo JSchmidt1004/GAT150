@@ -145,14 +145,10 @@ int main(int, char**)
 	nc::ObjectFactory::Instance().Initialize();
 	nc::ObjectFactory::Instance().Register("PlayerComponent", nc::Object::Instantiate<nc::PlayerComponent>);
 
-
 	rapidjson::Document document;
 
 	nc::json::Load("scene.txt", document);
 	scene.Read(document);
-
-	//Texture
-	nc::Texture* background = engine.GetSystem<nc::ResourceManager>()->Get<nc::Texture>("background.png", engine.GetSystem<nc::Renderer>());
 	
 
 	SDL_Event event;
@@ -177,11 +173,9 @@ int main(int, char**)
 		//Draw
 		engine.GetSystem<nc::Renderer>()->BeginFrame();
 
-		background->Draw({ 0, 0 }, { 1.0f, 1.0f }, 0);
 		scene.Draw();
 
 		engine.GetSystem<nc::Renderer>()->EndFrame();
-
 	}
 
 	scene.Destroy();
