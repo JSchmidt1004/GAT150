@@ -5,6 +5,7 @@
 #include "Object.h"
 #include "Math/Transform.h"
 #include "Engine.h"
+#include <bitset>
 
 namespace nc
 {
@@ -12,6 +13,15 @@ namespace nc
 
 	class GameObject : public Object
 	{
+		public:
+			enum eFlags //<0, 1, 0, 0>
+			{
+				ACTIVE,
+				VISIBLE,
+				DESTROY,
+				TRANSIENT
+			};
+
 		public:
 			GameObject() = default;
 			GameObject(const GameObject& other);
@@ -21,7 +31,6 @@ namespace nc
 			virtual Object* Clone() override { return new GameObject{ *this }; }
 
 			void Read(const rapidjson::Value& value) override;
-
 			void ReadComponents(const rapidjson::Value& value);
 
 			void Update();
@@ -39,6 +48,11 @@ namespace nc
 
 		public:
 			std::string m_name;
+			std::string m_tag;
+			float m_lifetime = 0;
+
+			std::bitset<32> m_flags;
+
 			Transform m_transform;
 			Engine* m_engine{ nullptr };
 
