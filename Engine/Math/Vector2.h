@@ -1,6 +1,8 @@
 #pragma once
+
 #include <cmath>
 #include <iostream>
+#include "box2d/box2d.h"
 
 namespace nc
 {
@@ -16,6 +18,7 @@ namespace nc
 		Vector2() : x { 0 }, y { 0 } {}
 		Vector2(float x, float y) : x { x }, y { y } {}
 		Vector2(int x, int y) : x { static_cast<float>(x) }, y { static_cast<float>(y) } {}
+		Vector2(const b2Vec2& v) : x{ v.x }, y{ v.y } {}
 
 		void set(float x, float y) { this->x = x; this->y = y; }
 
@@ -43,6 +46,8 @@ namespace nc
 		Vector2& operator /= (float s) { x /= s; y /= s; return *this; }
 
 		Vector2 operator - () { return Vector2{ -x, -y }; }
+
+		operator b2Vec2() const { return b2Vec2{ x, y }; }
 
 		friend std::istream& operator >> (std::istream& stream, Vector2& v);
 		friend std::ostream& operator << (std::ostream& stream, Vector2& v);
