@@ -13,6 +13,7 @@ namespace nc
 
         m_systems.push_back(new Renderer);
         m_systems.push_back(new InputSystem);
+        m_systems.push_back(new PhysicsSystem);
         m_systems.push_back(new ResourceManager);
 
         for (auto system : m_systems)

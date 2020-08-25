@@ -3,6 +3,7 @@
 #include <vector>
 #include "Core/Timer.h"
 #include "Input/InputSystem.h"
+#include "Physics/PhysicsSystem.h"
 #include "Resources/ResourceManager.h"
 #include "Graphics/Renderer.h"
 
