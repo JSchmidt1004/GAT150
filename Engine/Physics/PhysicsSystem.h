@@ -3,6 +3,7 @@
 #include "Core/System.h"
 #include "box2d/box2d.h"
 
+
 namespace nc
 {
 
@@ -16,6 +17,7 @@ namespace nc
 				Vector2 size;
 				float density = 0;
 				float friction = 1;
+				float restitiution = 0;
 				bool lockAngle = false;
 				bool isDynamic = false;
 			};
@@ -30,5 +32,6 @@ namespace nc
 
 		protected:
 			b2World* m_world = nullptr;
+			class ContactListener* m_contactListener = nullptr;
 	};
 }

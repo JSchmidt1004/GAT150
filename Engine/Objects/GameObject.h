@@ -36,6 +36,9 @@ namespace nc
 			void Update();
 			void Draw();
 
+			void BeginContact(GameObject* other);
+			void EndContact(GameObject* other);
+
 			void AddComponent(Component* component);
 			void RemoveComponent(Component* component);
 			void RemoveAllComponents();
