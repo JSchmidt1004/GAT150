@@ -20,6 +20,7 @@ namespace nc
 				float restitiution = 0;
 				bool lockAngle = false;
 				bool isDynamic = false;
+				bool isSensor = false;
 			};
 
 		public:
@@ -27,8 +28,12 @@ namespace nc
 			virtual void Shutdown() override;
 			virtual void Update() override;
 
-			b2Body* CreateBody(const Vector2& position, const Vector2& size, float density, bool isDynamic = true);
-			b2Body* CreateBody(const Vector2& position, const RigidBodyData& data, GameObject* gameObject);
+			//b2Body* CreateBody(const Vector2& position, const Vector2& size, float density, bool isDynamic = true);
+			b2Body* CreateBody(const Vector2& position, float angle, const RigidBodyData& data, GameObject* gameObject);
+			void DestroyBody(b2Body* body);
+
+			static Vector2 WorldToScreen(const Vector2& world) { return world * 32.0f; }
+			static Vector2 ScreenToWorld(const Vector2& screen) { return screen * (1.0f / 32.0f); }
 
 		protected:
 			b2World* m_world = nullptr;

@@ -1,11 +1,10 @@
 #pragma once
 
 #include <vector>
-
+#include <bitset>
 #include "Object.h"
 #include "Math/Transform.h"
 #include "Engine.h"
-#include <bitset>
 
 namespace nc
 {
@@ -38,6 +37,7 @@ namespace nc
 
 			void BeginContact(GameObject* other);
 			void EndContact(GameObject* other);
+			std::vector<GameObject*> GetContactsWithTag(const std::string& tag);
 
 			void AddComponent(Component* component);
 			void RemoveComponent(Component* component);
@@ -61,6 +61,7 @@ namespace nc
 
 		protected:
 			std::vector<Component*> m_components;
+			std::list<GameObject*> m_contacts;
 	};
 
 	template<typename T>
