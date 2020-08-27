@@ -6,6 +6,7 @@
 #include "Physics/PhysicsSystem.h"
 #include "Resources/ResourceManager.h"
 #include "Graphics/Renderer.h"
+#include "Audio/AudioSystem.h"
 
 namespace nc
 {

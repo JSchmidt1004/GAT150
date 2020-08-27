@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "PlayerComponent.h"
 #include "Components/RigidBodyComponent.h"
+#include "Components/AudioComponent.h"
 
 bool nc::PlayerComponent::Create(void* data)
 {
@@ -36,8 +37,6 @@ void nc::PlayerComponent::Update()
 		force.y = -1200;
 	}
 
-	//
-
 	RigidBodyComponent* component = m_owner->GetComponent<RigidBodyComponent>();
 	if (component)
 	{
@@ -49,5 +48,10 @@ void nc::PlayerComponent::Update()
 	{
 		contact->m_flags[GameObject::eFlags::DESTROY] = true;
 		//Play sound
+		AudioComponent* audioComponent = m_owner->GetComponent<AudioComponent>();
+		if (audioComponent)
+		{
+			audioComponent->Play();
+		}
 	}
 }
