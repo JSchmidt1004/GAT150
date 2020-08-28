@@ -15,6 +15,7 @@ namespace nc
 			virtual void Update() override;
 
 			virtual void ApplyForce(const Vector2& force) { m_force = force; }
+			virtual Vector2& GetVelocity() { return m_velocity; }
 			void SetDrag(float drag) { m_drag = drag; }
 
 		protected:

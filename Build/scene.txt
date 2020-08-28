@@ -56,7 +56,10 @@
 					"isDynamic":false,
 					"isSensor":true,
 					"lockAngle":true,
-					"size":[16, 16],
+					"size":[
+						16,
+						16
+					],
 					"density":1,
 					"friction":1,
 					"restitution":0.5
@@ -77,7 +80,10 @@
 				{
 					"type":"SpriteComponent",
 					"texture":"crate.png",
-					"origin":[0.5, 0.5],
+					"origin":[
+						0.5,
+						0.5
+					],
 					"rect":[
 						0,
 						0,
@@ -89,18 +95,19 @@
 					"type":"RigidBodyComponent",
 					"isDynamic":true,
 					"lockAngle":false,
-					"size":[16, 16],
+					"size":[
+						16,
+						16
+					],
 					"density":1,
 					"friction":1,
 					"restitution":0.3
 				}
 			]
-		}
-	],
-	"GameObjects":[
+		},
 		{
 			"type":"GameObject",
-			"name":"Ground",
+			"name":"Tile01",
 			"tag":"Floor",
 			"position":[
 				400,
@@ -111,8 +118,77 @@
 			"Components":[
 				{
 					"type":"SpriteComponent",
+					"texture":"Textures/tile01.png",
+					"origin":[
+						0.5,
+						0.5
+					],
+					"rect":[
+						0,
+						0,
+						64,
+						64
+					]
+				},
+				{
+					"type":"RigidBodyComponent",
+					"isDynamic":false,
+					"lockAngle":true,
+					"size":[
+						32,
+						32
+					],
+					"density":1,
+					"friction":1
+				}
+			]
+		}
+	],
+	"GameObjects":[
+		{
+			"type":"GameObject",
+			"name":"Background",
+			"position":[
+				0,
+				0
+			],
+			"scale":1,
+			"angle":0,
+			"Components":[
+				{
+					"type":"SpriteComponent",
+					"texture":"Textures/background.png",
+					"origin":[
+						0,
+						0
+					],
+					"rect":[
+						0,
+						0,
+						800,
+						600
+					]
+				}
+			]
+		},
+		{
+			"type":"GameObject",
+			"name":"Ground",
+			"tag":"Floor",
+			"position":[
+				400,
+				600
+			],
+			"scale":1,
+			"angle":0,
+			"Components":[
+				{
+					"type":"SpriteComponent",
 					"texture":"ground.png",
-					"origin":[0.5, 1.5],
+					"origin":[
+						0.5,
+						1.5
+					],
 					"rect":[
 						0,
 						0,
@@ -124,7 +200,10 @@
 					"type":"RigidBodyComponent",
 					"isDynamic":false,
 					"lockAngle":true,
-					"size":[400, 16],
+					"size":[
+						400,
+						16
+					],
 					"density":1,
 					"friction":1
 				}
@@ -145,7 +224,10 @@
 					"type":"RigidBodyComponent",
 					"isDynamic":true,
 					"lockAngle":true,
-					"size":[16, 32],
+					"size":[
+						16,
+						32
+					],
 					"density":1,
 					"friction":4,
 					"restitution":0.3
@@ -154,44 +236,24 @@
 					"type":"PlayerComponent"
 				},
 				{
-					"type":"SpriteComponent",
-					"texture":"player.png",
+					"type":"SpriteAnimationComponent",
+					"texture":"Textures/player.png",
 					"origin":[
 						0.5,
 						0.5
 					],
-					"rect":[
-						0,
-						0,
-						32,
-						64
-					]
+					"numX":8,
+					"numY":1,
+					"numFrames":8,
+					"fps":15
 				},
 				{
 					"type":"AudioComponent",
 					"sound":"jump.wav",
-					"playOnAwake": true,
-					"loop": false
+					"playOnAwake":true,
+					"loop":false
 				}
 			]
-		},
-		{
-			"type":"ProtoExplosion",
-			"name":"Explosion",
-			"position":[
-				500,
-				200
-			]
-		},
-		{
-			"type":"ProtoExplosion",
-			"name":"Explosion",
-			"lifetime":4.0,
-			"position":[
-				150,
-				400
-			],
-			"scale":2
 		}
 	]
 }
