@@ -41,7 +41,7 @@
 			"Components":[
 				{
 					"type":"SpriteAnimationComponent",
-					"texture":"coin.png",
+					"texture":"Textures/coin.png",
 					"origin":[
 						0.5,
 						0.5
@@ -79,7 +79,7 @@
 			"Components":[
 				{
 					"type":"SpriteComponent",
-					"texture":"crate.png",
+					"texture":"Textures/crate.png",
 					"origin":[
 						0.5,
 						0.5
@@ -87,8 +87,8 @@
 					"rect":[
 						0,
 						0,
-						32,
-						32
+						64,
+						64
 					]
 				},
 				{
@@ -96,8 +96,8 @@
 					"isDynamic":true,
 					"lockAngle":false,
 					"size":[
-						16,
-						16
+						32,
+						32
 					],
 					"density":1,
 					"friction":1,
@@ -107,11 +107,54 @@
 		},
 		{
 			"type":"GameObject",
+			"name":"ProtoBat",
+			"tag":"Enemy",
+			"transient":false,
+			"position":[
+				0,
+				0
+			],
+			"scale":1,
+			"angle":0,
+			"Components":[
+				{
+					"type":"SpriteAnimationComponent",
+					"texture":"Textures/bat.png",
+					"origin":[
+						0.5,
+						0.5
+					],
+					"numX":4,
+					"numY":1,
+					"numFrames":4,
+					"fps":10
+				},
+				{
+					"type":"EnemyComponent"
+				},
+				{
+					"type":"RigidBodyComponent",
+					"isDynamic":true,
+					"isSensor":false,
+					"lockAngle":true,
+					"size":[
+						16,
+						16
+					],
+					"density":1,
+					"friction":1,
+					"restitution":0.5,
+					"gravityScale":0.0
+				}
+			]
+		},
+		{
+			"type":"GameObject",
 			"name":"Tile01",
 			"tag":"Floor",
 			"position":[
-				400,
-				450
+				0,
+				0
 			],
 			"scale":1,
 			"angle":0,
@@ -173,44 +216,6 @@
 		},
 		{
 			"type":"GameObject",
-			"name":"Ground",
-			"tag":"Floor",
-			"position":[
-				400,
-				600
-			],
-			"scale":1,
-			"angle":0,
-			"Components":[
-				{
-					"type":"SpriteComponent",
-					"texture":"ground.png",
-					"origin":[
-						0.5,
-						1.5
-					],
-					"rect":[
-						0,
-						0,
-						800,
-						32
-					]
-				},
-				{
-					"type":"RigidBodyComponent",
-					"isDynamic":false,
-					"lockAngle":true,
-					"size":[
-						400,
-						16
-					],
-					"density":1,
-					"friction":1
-				}
-			]
-		},
-		{
-			"type":"GameObject",
 			"name":"Player",
 			"tag":"Player",
 			"position":[
@@ -230,7 +235,7 @@
 					],
 					"density":1,
 					"friction":4,
-					"restitution":0.3
+					"restitution":0.1
 				},
 				{
 					"type":"PlayerComponent"
@@ -250,7 +255,7 @@
 				{
 					"type":"AudioComponent",
 					"sound":"jump.wav",
-					"playOnAwake":true,
+					"playOnAwake":false,
 					"loop":false
 				}
 			]

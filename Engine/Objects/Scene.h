@@ -9,26 +9,28 @@ namespace nc
 
 	class Scene : public Object
 	{
-	public:
-		virtual bool Create(void* data = nullptr) override;
-		virtual void Destroy() override;
+		public:
+			virtual bool Create(void* data = nullptr) override;
+			virtual void Destroy() override;
 
-		void Read(const rapidjson::Value& value) override;
-		void ReadGameObjects(const rapidjson::Value& value);
-		void ReadPrototypes(const rapidjson::Value& value);
+			void Read(const rapidjson::Value& value) override;
+			void ReadGameObjects(const rapidjson::Value& value);
+			void ReadPrototypes(const rapidjson::Value& value);
 
-		void Update();
-		void Draw();
+			void Update();
+			void Draw();
 
-		GameObject* Find(const std::string& name);
-		std::vector<GameObject*> FindGameObjectsWithTag(const std::string& tag);
+			GameObject* Find(const std::string& name);
+			std::vector<GameObject*> FindGameObjectsWithTag(const std::string& tag);
 
-		void AddGameObject(GameObject* gameObject);
-		void RemoveGameObject(GameObject* gameObject);
-		void RemoveAllGameObjects();
+			void AddGameObject(GameObject* gameObject);
+			void RemoveGameObject(GameObject* gameObject);
+			void RemoveAllGameObjects();
 
-	protected:
-		Engine* m_engine{ nullptr };
-		std::list<GameObject*> m_gameObjects;
+		public:
+			Engine* m_engine = nullptr;
+
+		protected:
+			std::list<GameObject*> m_gameObjects;
 	};
 }

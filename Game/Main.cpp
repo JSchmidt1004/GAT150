@@ -11,6 +11,7 @@
 #include "Objects/ObjectFactory.h"
 #include "Objects/Scene.h"
 #include "Components/PlayerComponent.h"
+#include "Components/EnemyComponent.h"
 #include "TileMap.h"
 
 nc::Engine engine;
@@ -145,6 +146,46 @@ void ExampleCode()
 
 	force = nc::Vector2::Rotate(force, nc::DegreesToRadians(m_owner->m_transform.angle));
 }
+
+{
+			"type":"GameObject",
+			"name":"Ground",
+			"tag":"Floor",
+			"position":[
+				400,
+				600
+			],
+			"scale":1,
+			"angle":0,
+			"Components":[
+				{
+					"type":"SpriteComponent",
+					"texture":"ground.png",
+					"origin":[
+						0.5,
+						1.5
+					],
+					"rect":[
+						0,
+						0,
+						800,
+						32
+					]
+				},
+				{
+					"type":"RigidBodyComponent",
+					"isDynamic":false,
+					"lockAngle":true,
+					"size":[
+						400,
+						16
+					],
+					"density":1,
+					"friction":1
+				}
+			]
+		},
+
 */
 
 

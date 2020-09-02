@@ -2,6 +2,7 @@
 
 #include <vector>
 #include <bitset>
+#include <list>
 #include "Object.h"
 #include "Math/Transform.h"
 #include "Engine.h"
@@ -9,6 +10,7 @@
 namespace nc
 {
 	class Component;
+	class Scene;
 
 	class GameObject : public Object
 	{
@@ -57,7 +59,9 @@ namespace nc
 			std::bitset<32> m_flags;
 
 			Transform m_transform;
-			Engine* m_engine{ nullptr };
+
+			Engine* m_engine = nullptr;
+			Scene* m_scene = nullptr;
 
 		protected:
 			std::vector<Component*> m_components;
